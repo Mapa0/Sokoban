@@ -59,6 +59,106 @@ void exibirPosicao(int *movel, int lin, int col){
         }
 }
 
+bool verificaMovimento(char direcao, int * movel, int lin, int col) {
+    switch(direcao)
+    {
+        case 'w':
+            for (int i = 0; i < col; i++)
+                for(int j = 0; j < lin; j++)
+                {
+                    if(movel[i*lin+j] == 4)
+                    {
+                        if(movel[i * lin + j - lin] == 0 || movel[i * lin + j - lin] ==  3) return true;
+
+                        else if(movel[i * lin + j - lin] == 1) return false;
+
+                        else if(movel[i * lin + j - lin] == 2) {
+
+                            if(movel[i * lin + j - (2*lin)] != 0 && movel[i * lin + j - (2*lin)] != 3) return false;
+
+                            else {
+                                movel[i * lin + j - lin] = 0;
+                                movel[i * lin + j - (2 * lin)] = 2;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            break;
+        case 'a':
+            for (int i = 0; i < col; i++)
+                for(int j = 0; j < lin; j++)
+                {
+                    if(movel[i*lin+j] == 4)
+                    {
+                        if(movel[i * lin + j -1] == 0 || movel[i * lin + j -1] ==  3) return true;
+
+                        else if(movel[i * lin + j -1] == 1) return false;
+
+                        else if(movel[i * lin + j -1] == 2) {
+
+                            if(movel[i * lin + j - 2] != 0 && movel[i * lin + j - 2] != 3) return false;
+
+                            else {
+                                movel[i * lin + j - 2] = 0;
+                                movel[i * lin + j - 2] = 2;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            break;
+        case 's':
+            for (int i = 0; i < col; i++)
+                for(int j = 0; j < lin; j++)
+                {
+                    if(movel[i*lin+j] == 4)
+                    {
+                        if(movel[i * lin + j + lin] == 0 || movel[i * lin + j + lin] ==  3) return true;
+
+                        else if(movel[i * lin + j + lin] == 1) return false;
+
+                        else if(movel[i * lin + j + lin] == 2) {
+
+                            if (movel[i * lin + j + 2*lin] != 0 && movel[i * lin + j + 2*lin] != 3) return false;
+
+                            else {
+                                movel[i * lin + j + lin] = 0;
+                                movel[i * lin + j + (2 * lin)] = 2;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            break;
+        case 'd':
+            for (int i = 0; i < col; i++)
+                for(int j = 0; j < lin; j++)
+                {
+                    if(movel[i*lin+j] == 4)
+                    {
+                        if(movel[i * lin + j + 1] == 0 || movel[i * lin + j + 1] ==  3) return true;
+
+                        else if(movel[i * lin + j + 1] == 1) return false;
+
+                        else if(movel[i * lin + j + 1] == 2) {
+
+                            if(movel[i * lin + j + 2] != 0 && movel[i * lin + j + 2] != 3) return false;
+
+                            else {
+                                movel[i * lin + j + 1] = 0;
+                                movel[i * lin + j + 2] = 2;
+                                return true;
+                            }
+                        }
+                    }
+                }
+            break;
+        default:
+            return false;
+    }
+}
+
 int movimentarPersonagem(int *movel, int lin, int col) {
     switch(getchar()) {
         case 'w':
@@ -66,10 +166,12 @@ int movimentarPersonagem(int *movel, int lin, int col) {
                 for (int j = 0; j < lin; j++) {
                     if(movel[i*lin + j] == 4)
                     {
-                        movel[i*lin + j - lin] = 4;
-                        movel[i*lin + j] = 0;
-                        moves++;
-                        break;
+                        if(verificaMovimento('w', movel, lin, col) == true) {
+                            movel[i * lin + j - lin] = 4;
+                            movel[i * lin + j] = 0;
+                            moves++;
+                            return true;
+                        }
                     }
                 }
             break;
@@ -78,10 +180,12 @@ int movimentarPersonagem(int *movel, int lin, int col) {
                 for (int j = 0; j < lin; j++) {
                     if(movel[i*lin + j] == 4)
                     {
-                        movel[i*lin + j - 1] = 4;
-                        movel[i*lin + j] = 0;
-                        moves++;
-                        break;
+                        if(verificaMovimento('a', movel, lin, col) == true) {
+                            movel[i * lin + j - 1] = 4;
+                            movel[i * lin + j] = 0;
+                            moves++;
+                            return true;
+                        }
                     }
                 }
             break;
@@ -90,10 +194,12 @@ int movimentarPersonagem(int *movel, int lin, int col) {
                 for (int j = 0; j < lin; j++) {
                     if(movel[i*lin + j]== 4)
                     {
-                        movel[i*lin + j + lin] = 4;
-                        movel[i*lin + j] = 0;
-                        moves++;
-                        i = col;j = lin;
+                        if(verificaMovimento('s', movel, lin, col) == true) {
+                            movel[i * lin + j + lin] = 4;
+                            movel[i * lin + j] = 0;
+                            moves++;
+                            return true;
+                        }
                     }
                 }
             break;
@@ -102,37 +208,36 @@ int movimentarPersonagem(int *movel, int lin, int col) {
                 for (int j = 0; j < lin; j++) {
                     if(movel[i*lin + j] == 4)
                     {
-                        movel[i*lin + j + 1] = 4;
-                        movel[i*lin + j] = 0;
-                        moves++;
-                        break;
+                        if(verificaMovimento('d', movel, lin, col) == true) {
+                            movel[i * lin + j + 1] = 4;
+                            movel[i * lin + j] = 0;
+                            moves++;
+                            return true;
+                        }
                     }
                 }
             break;
         case 'q':
             return -1;
-            break;
         default:
-            break;
+            return 0;
     }
     return 0;
 }
 
 void mostrarMapa(int *movel, int *original, int lin, int col) {
     system("clear");
-    int level[col][lin];
     for(int i = 0; i < col; i++)
         for(int j = 0; j < lin; j++)
         {
             if(original[i*lin + j] == 3 && movel [i*lin+j] == 0)
             {
-                level[i][j] = original[i*lin + j];
+                movel[i * lin + j] = original[i*lin + j];
             }
-            else level[i][j] = movel[i*lin + j];
         }
     for (int i = 0; i < 6; i++) {
         for (int j = 0; j < 6; j++) {
-            switch (level[i][j]) {
+            switch (movel[i*lin+j]) {
 
                 case 0:
                     printf(" ");
