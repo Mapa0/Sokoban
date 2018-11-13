@@ -33,9 +33,9 @@ int exibirMenu() {
     printf("\n Selecione a fase: \n");
     printf("1 -> Fase 1 \n2 -> Fase 2 \n3 -> Fase 3 \n0 -> Externo \nq -> Sair do Jogo\n\n");
 
-    fase = getchar();
+    scanf("%d", & fase);
 
-    if(fase == '0' || fase == '1' || fase == '2' || fase == '3')
+    if(fase == 0 || fase == 1 || fase == 2 || fase == 3)
         return fase;
 
     else if (fase == 'q')
@@ -46,6 +46,40 @@ int exibirMenu() {
         printf("Opção inválida, digite novamente! ");
         return exibirMenu();
     }
+}
+
+int vitoria()
+{
+    system("clear");
+    printf("██████╗  █████╗ ██████╗  █████╗ ██████╗ ███████╗███╗   ██╗███████╗██╗\n██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝████╗  ██║██╔════╝██║\n██████╔╝███████║██████╔╝███████║██████╔╝█████╗  ██╔██╗ ██║███████╗██║\n██╔═══╝ ██╔══██║██╔══██╗██╔══██║██╔══██╗██╔══╝  ██║╚██╗██║╚════██║╚═╝\n██║     ██║  ██║██║  ██║██║  ██║██████╔╝███████╗██║ ╚████║███████║██╗\n╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝");
+    printf("\n\n Você venceu com um total de %d movimentos!\n\n", moves);
+    printf("\nDigite seu nome para registrá-lo junto com os movimentos:\n");
+    scanf("%c");
+    printf("Deseja jogar novamente?");
+    if(getchar() == 's' || getchar() == 'n')
+        printf("ok");
+    return 1;
+}
+bool verificaVitoria(int *movel, int *original, int lin, int col) {
+    int nCaixas = 0, nCaixasCorretas = 0;
+
+    for(int i  = 0; i < col; i++) {
+        for(int j = 0; j < lin; j++) {
+
+            if (original[i * lin + j] == 3) nCaixas++;
+        }
+    }
+    for(int i  = 0; i < col; i++) {
+        for (int j = 0; j < lin; j++) {
+            if (original[i * lin + j] == 3 && movel[i * lin + j] == 2)
+                nCaixasCorretas++;
+            else if(original[i * lin + j] == 3 && movel[i * lin + j] != 2)
+                return false;
+        }
+    }
+    if(nCaixasCorretas == nCaixas)
+        return true;
+    return false;
 }
 
 void exibirPosicao(int *movel, int lin, int col){
@@ -154,9 +188,8 @@ bool verificaMovimento(char direcao, int * movel, int lin, int col) {
                     }
                 }
             break;
-        default:
-            return false;
     }
+    return false;
 }
 
 int movimentarPersonagem(int *movel, int lin, int col) {
@@ -235,8 +268,8 @@ void mostrarMapa(int *movel, int *original, int lin, int col) {
                 movel[i * lin + j] = original[i*lin + j];
             }
         }
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < col; i++) {
+        for (int j = 0; j < lin; j++) {
             switch (movel[i*lin+j]) {
 
                 case 0:
@@ -268,29 +301,45 @@ int jogo(int fase){
     if (fase == 0)
     {
         /*fase customizada!*/
+
     }
-    else
+    else if (fase == 1)
     {
         /*Declaração de variáveis sobre informações do Mapa e dos controles*/
-        int lin = 6, col = 6;
-        int original[6][6] = {{1, 1, 1, 1, 1, 1},
-                              {1, 0, 0, 0, 0, 1},
-                              {1, 0, 0, 3, 0, 1},
-                              {1, 0, 2, 0, 0, 1},
-                              {1, 0, 0, 4, 0, 1},
-                              {1, 1, 1, 1, 1, 1}};
-        int movel[6][6] = {{1, 1, 1, 1, 1, 1},
-                            {1, 0, 0, 0, 0, 1},
-                            {1, 0, 0, 3, 0, 1},
-                            {1, 0, 2, 0, 0, 1},
-                            {1, 0, 0, 4, 0, 1},
-                            {1, 1, 1, 1, 1, 1}};
+        int lin = 19, col = 11;
+        int original[11][19] = {{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+                                {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
+                                {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
+                                {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
+                                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+        int movel[11][19] = {{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                             {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                             {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                             {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+                             {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
+                             {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
+                             {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
+                             {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                             {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
 
         bool rodando=true;
 
         /*Aqui é onde o  jogo roda de fato*/
         while(rodando)
         {
+            if(verificaVitoria((int *)movel,(int *)original,lin,col))
+            {
+                return vitoria();
+            }
             mostrarMapa((int *)movel,(int *)original, lin, col);
             exibirPosicao((int *)movel,lin,col);
             if(movimentarPersonagem((int *)movel, lin, col) == -1)
@@ -299,6 +348,47 @@ int jogo(int fase){
             }
         }
 
+    }
+    else if(fase == 2)
+    {
+        int lin = 10, col = 10;
+        int original[10][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                                {1, 0, 0, 2, 0, 0, 0, 3, 0, 1},
+                                {1, 0, 2, 0, 2, 0, 0, 0, 0, 1},
+                                {1, 0, 0, 0, 0, 0, 0, 3, 0, 1},
+                                {1, 0, 4, 0, 0, 0, 1, 1, 1, 1},
+                                {1, 0, 0, 0, 1, 0, 1, 1 ,0, 1},
+                                {1, 0, 0, 0, 1, 3, 0, 1 ,0, 0},
+                                {1, 0, 0, 0, 1, 0, 0, 1 ,0, 0},
+                                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}};
+
+        int movel[10][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                             {1, 0, 0, 2, 0, 0, 0, 3, 0, 1},
+                             {1, 0, 2, 0, 2, 0, 0, 0, 0, 1},
+                             {1, 0, 0, 0, 0, 0, 0, 3, 0, 1},
+                             {1, 0, 4, 0, 0, 0, 1, 1, 1, 1},
+                             {1, 0, 0, 0, 1, 0, 1, 1 ,0, 1},
+                             {1, 0, 0, 0, 1, 3, 0, 1 ,0, 0},
+                             {1, 0, 0, 0, 1, 0, 0, 1 ,0, 0},
+                             {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}};
+
+        bool rodando=true;
+        /*Aqui é onde o  jogo roda de fato*/
+        while(rodando)
+        {
+            if(verificaVitoria((int *)movel,(int *)original,lin,col))
+            {
+                return vitoria();
+            }
+            mostrarMapa((int *)movel,(int *)original, lin, col);
+            exibirPosicao((int *)movel,lin,col);
+            if(movimentarPersonagem((int *)movel, lin, col) == -1)
+            {
+                return -1;
+            }
+        }
     }
     return 0;
 }
