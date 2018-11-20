@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/../../levelcreator/main.c" description="&#10;    int original[14][19] = {{0, 0, 0, 0, 0, 0, 0,..." line="74" />
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
       <config projectName="Sokoban" targetName="Sokoban" />
@@ -41,15 +44,19 @@
     <session id="-1488543185">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="11" />
+          <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.26" value="1" />
           <entry key="project.open.time.27" value="1" />
           <entry key="project.open.time.28" value="4" />
           <entry key="project.open.time.29" value="1" />
-          <entry key="project.open.time.31" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.open.time.31" value="2" />
+          <entry key="project.open.time.33" value="1" />
+          <entry key="project.open.time.35" value="1" />
+          <entry key="project.open.time.39" value="1" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -64,12 +71,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="c" value="7652" />
+          <entry key="c" value="11686" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="7652" />
+          <entry key="ObjectiveC" value="11686" />
         </counts>
       </usages-collector>
     </session>
@@ -79,16 +86,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="308" column="30" selection-start-line="308" selection-start-column="30" selection-end-line="308" selection-end-column="30" />
+            <state relative-caret-position="188">
+              <caret line="275" column="56" lean-forward="true" selection-start-line="275" selection-start-column="56" selection-end-line="275" selection-end-column="56" />
               <folding>
                 <element signature="e#0#204#0" />
-                <element signature="e#294#1305#0" />
-                <element signature="e#1307#1765#0" />
-                <element signature="e#1307#1782#0" />
-                <element signature="e#1307#1610#0" />
-                <element signature="e#1612#5303#0" />
-                <element signature="e#5084#7380#0" />
+                <element signature="e#273#293#0" />
+                <element signature="e#313#1236#0" />
+                <element signature="e#1238#2276#0" />
+                <element signature="e#2278#2914#0" />
+                <element signature="e#2916#3219#0" />
+                <element signature="e#3221#6802#0" />
+                <element signature="e#6804#9085#0" />
+                <element signature="e#9087#10059#0" />
+                <element signature="e#10061#15761#0" />
+                <element signature="e#15763#16038#0" />
               </folding>
             </state>
           </provider>
@@ -113,16 +124,28 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="-1" />
-    <option name="width" value="662" />
-    <option name="height" value="365" />
+    <option name="width" value="672" />
+    <option name="height" value="738" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Sokoban" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Sokoban" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -178,17 +201,23 @@
       <workItem from="1541984727987" duration="1960000" />
       <workItem from="1542116195722" duration="6000" />
       <workItem from="1542121981062" duration="11330000" />
+      <workItem from="1542213233761" duration="51000" />
+      <workItem from="1542225767315" duration="640000" />
+      <workItem from="1542507067748" duration="6383000" />
+      <workItem from="1542566877394" duration="6137000" />
+      <workItem from="1542679491418" duration="4738000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42483000" />
+    <option name="totallyTimeSpent" value="60432000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24961832" />
-      <window_info active="true" id="Structure" order="1" side_tool="true" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.106818184" />
+      <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.1590909" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -219,16 +248,20 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/main.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="308" column="30" selection-start-line="308" selection-start-column="30" selection-end-line="308" selection-end-column="30" />
+        <state relative-caret-position="188">
+          <caret line="275" column="56" lean-forward="true" selection-start-line="275" selection-start-column="56" selection-end-line="275" selection-end-column="56" />
           <folding>
             <element signature="e#0#204#0" />
-            <element signature="e#294#1305#0" />
-            <element signature="e#1307#1765#0" />
-            <element signature="e#1307#1782#0" />
-            <element signature="e#1307#1610#0" />
-            <element signature="e#1612#5303#0" />
-            <element signature="e#5084#7380#0" />
+            <element signature="e#273#293#0" />
+            <element signature="e#313#1236#0" />
+            <element signature="e#1238#2276#0" />
+            <element signature="e#2278#2914#0" />
+            <element signature="e#2916#3219#0" />
+            <element signature="e#3221#6802#0" />
+            <element signature="e#6804#9085#0" />
+            <element signature="e#9087#10059#0" />
+            <element signature="e#10061#15761#0" />
+            <element signature="e#15763#16038#0" />
           </folding>
         </state>
       </provider>
