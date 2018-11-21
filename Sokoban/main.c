@@ -21,45 +21,7 @@
 typedef enum { false, true } bool;
 
 int moves;
-
-void code(int*matriz, int lin, int col) {
-    for(int i = 0; i < lin; i++)
-    {
-        for(int j =0; j < col; j++)
-        {
-            printf("%d",matriz[i*col+j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    for(int i = 0; i < lin; i++) {
-        for (int j = 0; j < col; j++) {
-            switch(matriz[i*col+j])
-            {
-                case 0:
-                    printf(" ");
-                    break;
-                case 1:
-                    printf("█");
-                    break;
-                case 2:
-                    printf("#");
-                    break;
-                case 3:
-                    printf("x");
-                    break;
-                case 4:
-                    printf("@");
-                    break;
-                default:
-                    printf("?");
-                    break;
-            }
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
+char nomeFase[13];
 
 bool Mallocar2d(int *** matriz, int lin, int col) {
     *matriz = malloc( sizeof(int *) * lin);
@@ -384,52 +346,6 @@ bool verificaArquivos(){
     else return true;
 }
 
-//bool inicializaFase(char * caminhoFase, int *** original, int *** movel, int * lin, int * col) {
-//
-//    printf("Inicializando fase no endereço: %s\n", caminhoFase);
-//    FILE *arq;
-//    if((arq = fopen(strcat(caminhoFase,"level"),"r")) == NULL){
-//        printf("Não foi possível inicializar a fase no caminho especificado.\n");
-//        return false;
-//    }
-//    printf("Lendo número de linhas\n");
-//    fread(lin,sizeof(int),1,arq);
-//    printf("Lendo número de colunas\n");
-//    fread(col,sizeof(int),1,arq);
-//    printf("Linhas: %d\nColunas: %d\n",*lin,*col);
-//    printf("Alocando matrizes: \n");
-//    if(Mallocar2d(original,*lin,*col)== false)
-//    {
-//        printf("Não foi possível alocar espaço na memória para ORIGINAL\n");
-//        return false;
-//    }
-//    printf("Matriz ORIGINAL Alocada. \n");
-//    if(Mallocar2d(movel,*lin,*col)== false)
-//    {
-//        printf("Não foi possível alocar espaço na memória para ORIGINAL\n");
-//        return false;
-//    }
-//    printf("Matriz MOVEL Alocada.\n");
-//    printf("Lendo valores e salvando na matriz ORIGINAL \n");
-//    rewind(arq);
-//    fseek(arq,sizeof(int)*2,SEEK_CUR);
-//    fread(original, sizeof(int),*lin * *col, arq);
-//    code((int *)original, *lin, *col);
-//    printf("Valores lidos\n");
-//    rewind(arq);
-//    fseek(arq,sizeof(int)*2,SEEK_CUR);
-//    printf("Lendo valores e salvando na matriz movel \n");
-//    fread(movel, sizeof(int), *lin * *col, arq);
-//    code((int *)movel, *lin, *col);
-//    printf("Valores lidos\n");
-//    fclose(arq);
-//    printf("Fechando arquivo \n");
-//    code((int *)original, *lin, *col);
-//    code((int *)movel, *lin, *col);
-//    printf("Matrizes inicializadas!\n");
-//    return true;
-//}
-
 int exibirMenu() {
 
     char fase;
@@ -441,10 +357,10 @@ int exibirMenu() {
            "███████║╚██████╔╝██║  ██╗╚██████╔╝██████╔╝██║  ██║██║ ╚████║\n"
            "╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝\n \n"
            "Feito por Marcos Paulo Paolino e Marco Cabral Campelo"
-           "\n Selecione a fase: \n"
+           "\n Selecione a fase:                            \n"
            "1 -> Fase 1     4 -> Fase 4     7 -> Fase 7     0 -> Fase Customizada\n"
            "2 -> Fase 2     5 -> Fase 5     8 -> Fase 8     H -> Ajuda\n"
-           "3 -> Fase 3     6 -> Fase 6     9 -> Fase 9     Q -> Sair\n\n");
+           "3 -> Fase 3     6 -> Fase 6     9 -> Fase 9     C -> Criar níveis\n\nQ -> Sair\n\n");
 
     scanf("%c", &fase);
 
@@ -452,7 +368,9 @@ int exibirMenu() {
 
     else if (toupper(fase) == 'Q') return -1;
 
-    else if(toupper(fase) == 'H') return 0;
+    else if(toupper(fase) == 'H') return -2;
+
+    else if(toupper(fase) == 'C') return -3;
 
     else {
         system("clear");
@@ -473,19 +391,13 @@ int vitoria(char *enderecoFase) {
     scanf("%s", nome);
 
     FILE *arq;
-    if((arq = fopen(enderecoFase,"a")) == NULL)
+    if((arq = fopen(strcat(enderecoFase,"Recordes"),"a")) == NULL)
     {
         printf("Não foi possivel abrir o arquivo");
         return 0;
     }
     fprintf(arq,"%s # %d\n",nome,moves);
     fclose(arq);
-
-    printf("Deseja jogar novamente?");
-    if(_toupper(getchar()) == 'S')
-    {
-        return -1;
-    }
     return 0;
 }
 
@@ -724,6 +636,176 @@ void mostrarMapa(int *movel, int *original, int lin, int col) {
     }
 }
 
+void criarNiveis() {
+    system("clear");
+    int **Matriz;
+    int lin, col;
+    int escolha;
+    bool Verificando;
+    printf("Digite o número de linhas: \n");
+    scanf("%d", &lin);
+    printf("Digite o número de colunas: \n");
+    scanf("%d", &col);
+    Mallocar2d(&Matriz, lin, col);
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++) {
+            if (i == 0 && j == 0) Matriz[i][j] = 5;
+
+            else Matriz[i][j] = 0;
+
+            printf("%d", Matriz[i][j]);
+        }
+        printf("\n");
+    }
+
+    for (int i = 0; i < lin; i++)
+        for (int j = 0; j < col; j++) {
+            if (Matriz[i][j] == 5) {
+                system("clear");
+                printf("MODO DE CONSTRUÇÃO:\n");
+                Verificando = true;
+                for (int k = 0; k < lin; k++) {
+                    for (int l = 0; l < col; l++) {
+                        switch (Matriz[k][l]) {
+                            case 0:
+                                printf(" ");
+                                break;
+                            case 1:
+                                printf("█");
+                                break;
+                            case 2:
+                                printf("#");
+                                break;
+                            case 3:
+                                printf("x");
+                                break;
+                            case 4:
+                                printf("@");
+                                break;
+                            case 5:
+                                printf("o");
+                                break;
+                            default:
+                                printf("?");
+                        }
+                    }
+                    printf("\n");
+                }
+                printf("\nINFORMAÇÃO: 1-> Parede   2-> Caixa    3-> Destino   4-> Jogador   5-> Desfazer   0-> Vazio\n");
+                printf("O que inserir? \n");
+                while (Verificando) {
+                    scanf("%d", &escolha);
+                    switch (escolha) {
+                        case 0:
+                            Matriz[i][j] = 0;
+                            if (j < col - 1) {
+                                Matriz[i][j + 1] = 5;
+                            } else if (j == col - 1 && i < lin - 1) {
+                                Matriz[i + 1][0] = 5;
+                            } else if (j == col - 1 && i == lin - 1) {
+                                printf("FIM");
+                            }
+                            Verificando = false;
+                            break;
+                        case 1:
+                            Matriz[i][j] = 1;
+                            if (j < col - 1) {
+                                Matriz[i][j + 1] = 5;
+                            } else if (j == col - 1 && i < lin - 1) {
+                                Matriz[i + 1][0] = 5;
+                            } else if (j == col - 1 && i == lin - 1) {
+                                printf("FIM");
+                            }
+                            Verificando = false;
+                            break;
+                        case 2:
+                            Matriz[i][j] = 2;
+                            if (j < col - 1) {
+                                Matriz[i][j + 1] = 5;
+                            } else if (j == col - 1 && i < lin - 1) {
+                                Matriz[i + 1][0] = 5;
+                            } else if (j == col - 1 && i == lin - 1) {
+                                printf("FIM");
+                            }
+                            Verificando = false;
+                            break;
+                        case 3:
+                            Matriz[i][j] = 3;
+                            if (j < col - 1) {
+                                Matriz[i][j + 1] = 5;
+                            } else if (j == col - 1 && i < lin - 1) {
+                                Matriz[i + 1][0] = 5;
+                            } else if (j == col - 1 && i == lin - 1) {
+                                printf("FIM");
+                            }
+                            Verificando = false;
+                            break;
+                        case 4:
+                            Matriz[i][j] = 4;
+                            if (j < col - 1) {
+                                Matriz[i][j + 1] = 5;
+                            } else if (j == col - 1 && i < lin - 1) {
+                                Matriz[i + 1][0] = 5;
+                            } else if (j == col - 1 && i == lin - 1) {
+                                printf("FIM");
+                            }
+                            Verificando = false;
+                            break;
+                        case 5:
+                            if (j > 0) {
+                                Matriz[i][j - 1] = 5;
+                                Matriz[i][j] = 0;
+                                i = 0;
+                                j = 0;
+                                Verificando = false;
+                            } else if (j == 0 && i > 0) {
+                                Matriz[i - 1][col - 1] = 5;
+                                Matriz[i][j] = 0;
+                                i = 0;
+                                j = 0;
+                                Verificando = false;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+    printf("Digite um nome de até 12 caracteres, sem espaços,para a sua criação: \n");
+    char caminhoTotal[31];
+    char nome[13];
+    scanf("%s", nome);
+    sprintf(caminhoTotal,"./Mapas/%s",nome);
+    mkdir(caminhoTotal,0777);
+    FILE *arq;
+    if((arq = fopen(strcat(caminhoTotal,"/level"),"w"))==NULL)
+    {
+        printf("Não foi possível salvar o arquivo \n");
+        return;
+    }
+
+    fwrite(&lin, sizeof(int), 1,arq);
+    fwrite(&col, sizeof(int), 1,arq);
+    fwrite(Matriz,sizeof(int),lin * col, arq);
+    fclose(arq);
+    printf("Fase criada com  sucesso.\n Salva no caminho: %s",caminhoTotal);
+    strcpy(nomeFase,nome);
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++)
+            printf("%d", Matriz[i][j]);
+        printf("\n");
+    }
+    arq = fopen(caminhoTotal,"r");
+    fread(&lin,sizeof(int),1,arq);
+    fread(&col,sizeof(int),1,arq);
+    fread(Matriz,sizeof(int),lin*col,arq);
+    fclose(arq);
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++)
+            printf("%d", Matriz[i][j]);
+        printf("\n");
+    }
+}
+
 int jogo(int fase) {
     system("clear");
     moves = 0;
@@ -734,94 +816,114 @@ int jogo(int fase) {
     int lin;
     int col;
 
-    if(fase == 0)
-    {
-
+    if(fase == 0) {
+        sprintf(caminhoFase, "./Mapas/%s/", nomeFase);
+        sprintf(caminhoArquivo, "./Mapas/%s/level", nomeFase);
     }
     else {
-
         sprintf(caminhoFase, "./Mapas/Fase%d/", fase);
         sprintf(caminhoArquivo, "./Mapas/Fase%d/level", fase);
-
-
-        FILE *arq;
-
-        if((arq = fopen(caminhoArquivo,"r")) == NULL)
-        {
-            printf("Não foi possível inicializar a fase.");
-            return 0;
-        }
-        fread(&lin,sizeof(int),1,arq);
-        fclose(arq);
-        printf("%d",lin);
-
-        if((arq = fopen(caminhoArquivo,"r")) == NULL)
-        {
-            printf("Não foi possível inicializar a fase.");
-            return 0;
-        }
-        fseek(arq,sizeof(int),SEEK_CUR);
-        fread(&col,sizeof(int),1,arq);
-        fclose(arq);
-        printf("%d",col);
-
-        Mallocar2d(&original,lin,col);
-        Mallocar2d(&movel,lin,col);
-
-        if((arq = fopen(caminhoArquivo,"r")) == NULL)
-        {
-            printf("Não foi possível inicializar a fase.");
-            return 0;
-        }
-        fseek(arq, sizeof(int)*2,SEEK_CUR);
-        fread(original,sizeof(int),lin*col,arq);
-        fclose(arq);
-        code((int *)original,lin,col);
-
-        if((arq = fopen(caminhoArquivo,"r")) == NULL)
-        {
-            printf("Não foi possível inicializar a fase.");
-            return 0;
-        }
-        fseek(arq, sizeof(int)*2,SEEK_CUR);
-        fread(movel,sizeof(int),lin*col,arq);
-        fclose(arq);
-        code((int *)movel,lin,col);
-
-
-        bool rodando = true;
-        /*Aqui é onde o  jogo roda de fato*/
-        while (rodando) {
-            if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
-                free(original);
-                free(movel);
-                return vitoria(caminhoFase);
-            }
-            mostrarMapa((int *) movel, (int *) original, lin, col);
-            exibirPosicao((int *) movel, lin, col);
-            if (movimentarPersonagem((int *) movel, lin, col) == -1) {
-                rodando = false;
-            }
-        }
-        free(original);
-        free(movel);
     }
+
+    FILE *arq;
+
+    if((arq = fopen(caminhoArquivo,"r")) == NULL)
+    {
+        printf("Não foi possível inicializar a fase.");
+        return 0;
+    }
+
+    fread(&lin,sizeof(int),1,arq);
+    fclose(arq);
+    printf("%d\n",lin);
+
+    if((arq = fopen(caminhoArquivo,"r")) == NULL)
+    {
+        printf("Não foi possível inicializar a fase.");
+        return 0;
+    }
+
+    fseek(arq,sizeof(int),SEEK_CUR);
+    fread(&col,sizeof(int),1,arq);
+    fclose(arq);
+    printf("%d\n",col);
+
+    Mallocar2d(&original,lin,col);
+    Mallocar2d(&movel,lin,col);
+
+    if((arq = fopen(caminhoArquivo,"r")) == NULL)
+    {
+        printf("Não foi possível inicializar a fase.");
+        return 0;
+    }
+    fseek(arq, sizeof(int)*2,SEEK_CUR);
+    fread(original,sizeof(int),lin*col,arq);
+    fclose(arq);
+
+    if((arq = fopen(caminhoArquivo,"r")) == NULL)
+    {
+        printf("Não foi possível inicializar a fase.");
+        return 0;
+    }
+    fseek(arq, sizeof(int)*2,SEEK_CUR);
+    fread(movel,sizeof(int),lin*col,arq);
+    fclose(arq);
+
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++)
+            printf("%d", movel[i][j]);
+        printf("\n");
+    }
+    for (int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++)
+            printf("%d", original[i][j]);
+        printf("\n");
+    }
+
+    bool rodando = true;
+    /*Aqui é o loop  principal do  jogo*/
+    while (rodando) {
+        if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
+            free(original);
+            free(movel);
+            return vitoria(caminhoFase);
+        }
+        mostrarMapa((int *) movel, (int *) original, lin, col);
+        exibirPosicao((int *) movel, lin, col);
+        if (movimentarPersonagem((int *) movel, lin, col) == -1) {
+            rodando = false;
+        }
+    }
+    free(original);
+    free(movel);
     return 0;
 }
 
-int main() {
+int main(int argc, char * argv[]) {
     if(verificaArquivos() == false) return 0;
+    if(argc == 2){
+        strcpy(nomeFase,argv[1]);
+        printf("Fase carregada :%s",nomeFase);
+    }
     system("clear");
     while(true) {
         int level = exibirMenu();
-        if (level != -1) {
+        if (level != -1 &&  level != -2 && level != -3) {
             if (jogo(level) == -1)
                 return 0;
         }
-        else
+        else if(level == -1)
         {
             system("clear");
             return 0;
+        }
+        else  if(level == -2)
+        {
+            //Menu help
+        }
+        else if(level == -3)
+        {
+            criarNiveis();
         }
     }
 }
