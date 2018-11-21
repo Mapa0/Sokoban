@@ -16,10 +16,69 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/stat.h>
+#include <memory.h>
 
 typedef enum { false, true } bool;
 
 int moves;
+
+void code(int*matriz, int lin, int col) {
+    for(int i = 0; i < lin; i++)
+    {
+        for(int j =0; j < col; j++)
+        {
+            printf("%d",matriz[i*col+j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    for(int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++) {
+            switch(matriz[i*col+j])
+            {
+                case 0:
+                    printf(" ");
+                    break;
+                case 1:
+                    printf("█");
+                    break;
+                case 2:
+                    printf("#");
+                    break;
+                case 3:
+                    printf("x");
+                    break;
+                case 4:
+                    printf("@");
+                    break;
+                default:
+                    printf("?");
+                    break;
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+bool Mallocar2d(int *** matriz, int lin, int col) {
+    *matriz = malloc( sizeof(int *) * lin);
+
+    if (*matriz == NULL){
+        printf("ERROR: Sem memória!\n");
+        return false;
+    }
+
+    for (int i=0;i<lin;i++){
+        (*matriz)[i] = malloc( sizeof(int) * col);
+        if ((*matriz)[i] == NULL){
+            printf("ERROR: Sem memória!\n");
+            return false;
+        }
+    }
+    printf("Alocado!\n");
+    return true;
+}
 
 bool geraFases(){
     printf("Geração de fases iniciadas:\n");
@@ -30,16 +89,16 @@ bool geraFases(){
 
     lin = 11; col = 19;
     int fase1[11][19] = {{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                            {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                            {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                            {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
-                            {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
-                            {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
-                            {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                            {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+                         {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+                         {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
+                         {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
+                         {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
+                         {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                         {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
 
     if((arq = fopen("./Mapas/Fase1/level","w"))!=NULL) {
         fwrite(&lin, sizeof(int), 1, arq);
@@ -57,15 +116,15 @@ bool geraFases(){
 
     lin = 10; col = 14;
     int fase2[10][14] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                            {1, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1},
-                            {1, 3, 3, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 1},
-                            {1, 3, 3, 0, 0, 1, 2, 1, 1, 1, 1, 0, 0, 1},
-                            {1, 3, 3, 0, 0, 0, 0, 4, 0, 1, 1, 0, 0, 1},
-                            {1, 3, 3, 0, 0, 1, 0, 1, 0, 0, 2, 0, 1, 1},
-                            {1, 1, 1, 1, 1, 1, 0, 1, 1, 2, 0, 2, 0, 1},
-                            {0, 0, 1, 0, 2, 0, 0, 2, 0, 2, 0, 2, 0, 1},
-                            {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-                            {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+                         {1, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1},
+                         {1, 3, 3, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 1},
+                         {1, 3, 3, 0, 0, 1, 2, 1, 1, 1, 1, 0, 0, 1},
+                         {1, 3, 3, 0, 0, 0, 0, 4, 0, 1, 1, 0, 0, 1},
+                         {1, 3, 3, 0, 0, 1, 0, 1, 0, 0, 2, 0, 1, 1},
+                         {1, 1, 1, 1, 1, 1, 0, 1, 1, 2, 0, 2, 0, 1},
+                         {0, 0, 1, 0, 2, 0, 0, 2, 0, 2, 0, 2, 0, 1},
+                         {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+                         {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
     if((arq = fopen("./Mapas/Fase2/level","w"))!=NULL) {
         fwrite(&lin, sizeof(int), 1, arq);
@@ -107,20 +166,22 @@ bool geraFases(){
 
     //Geração do binário da fase 4
 
+    lin = 14; col = 19;
+
     int fase4[14][19] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 1},
-                            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 1},
-                            {1, 0, 0, 0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 0, 3, 3, 3, 3, 1},
-                            {1, 0, 2, 2, 2, 1, 2, 0, 0, 2, 0, 1, 0, 0, 3, 3, 3, 3, 1},
-                            {1, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 3, 3, 3, 1},
-                            {1, 0, 2, 2, 0, 1, 2, 0, 2, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1},
-                            {1, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 0, 0, 2, 2, 1, 2, 2, 0, 0, 4, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 1},
+                         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 1},
+                         {1, 0, 0, 0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 0, 3, 3, 3, 3, 1},
+                         {1, 0, 2, 2, 2, 1, 2, 0, 0, 2, 0, 1, 0, 0, 3, 3, 3, 3, 1},
+                         {1, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 3, 3, 3, 3, 1},
+                         {1, 0, 2, 2, 0, 1, 2, 0, 2, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1},
+                         {1, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 0, 0, 2, 2, 1, 2, 2, 0, 0, 4, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+                         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
 
     if((arq = fopen("./Mapas/Fase4/level","w"))!=NULL) {
         fwrite(&lin, sizeof(int), 1, arq);
@@ -169,16 +230,16 @@ bool geraFases(){
     lin = 11; col = 12;
 
     int fase6[11][12] = {{1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0},
-                            {1, 3, 3, 0, 0, 1, 0, 1, 1, 4, 1, 1},
-                            {1, 3, 3, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-                            {1, 3, 3, 0, 0, 0, 0, 0, 2, 2, 0, 1},
-                            {1, 3, 3, 0, 0, 1, 0, 1, 0, 2, 0, 1},
-                            {1, 3, 3, 1, 1, 1, 0, 1, 0, 2, 0, 1},
-                            {1, 1, 1, 1, 0, 2, 0, 1, 2, 0, 0, 1},
-                            {0, 0, 0, 1, 0, 0, 2, 1, 0, 2, 0, 1},
-                            {0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 1},
-                            {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1},
-                            {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+                         {1, 3, 3, 0, 0, 1, 0, 1, 1, 4, 1, 1},
+                         {1, 3, 3, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+                         {1, 3, 3, 0, 0, 0, 0, 0, 2, 2, 0, 1},
+                         {1, 3, 3, 0, 0, 1, 0, 1, 0, 2, 0, 1},
+                         {1, 3, 3, 1, 1, 1, 0, 1, 0, 2, 0, 1},
+                         {1, 1, 1, 1, 0, 2, 0, 1, 2, 0, 0, 1},
+                         {0, 0, 0, 1, 0, 0, 2, 1, 0, 2, 0, 1},
+                         {0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 0, 1},
+                         {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1},
+                         {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
     if((arq = fopen("./Mapas/Fase6/level","w"))!=NULL) {
         fwrite(&lin, sizeof(int), 1, arq);
@@ -197,17 +258,17 @@ bool geraFases(){
     lin = 12; col = 13;
 
     int fase7[12][13] = {{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
-                            {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1},
-                            {1, 1, 0, 1, 0, 4, 1, 1, 0, 2, 2, 0, 1},
-                            {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1},
-                            {1, 0, 0, 2, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-                            {1, 1, 1, 0, 1, 1, 1, 1, 1, 2, 1, 1, 1},
-                            {1, 0, 2, 0, 0, 1, 1, 1, 0, 3, 3, 1, 0},
-                            {1, 0, 2, 0, 2, 0, 2, 0, 3, 3, 3, 1, 0},
-                            {1, 0, 0, 0, 0, 1, 1, 1, 3, 3, 3, 1, 0},
-                            {1, 0, 2, 2, 0, 1, 0, 1, 3, 3, 3, 1, 0},
-                            {1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
-                            {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+                         {0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1},
+                         {1, 1, 0, 1, 0, 4, 1, 1, 0, 2, 2, 0, 1},
+                         {1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 2, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+                         {1, 1, 1, 0, 1, 1, 1, 1, 1, 2, 1, 1, 1},
+                         {1, 0, 2, 0, 0, 1, 1, 1, 0, 3, 3, 1, 0},
+                         {1, 0, 2, 0, 2, 0, 2, 0, 3, 3, 3, 1, 0},
+                         {1, 0, 0, 0, 0, 1, 1, 1, 3, 3, 3, 1, 0},
+                         {1, 0, 2, 2, 0, 1, 0, 1, 3, 3, 3, 1, 0},
+                         {1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
+                         {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
     if((arq = fopen("./Mapas/Fase7/level","w"))!=NULL) {
         fwrite(&lin, sizeof(int), 1, arq);
@@ -226,21 +287,21 @@ bool geraFases(){
     lin = 16; col = 16;
 
     int fase8[16][16] = {{0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 1},
-                {0, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 0, 2, 0, 0, 1},
-                {0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 0, 0, 1},
-                {1, 1, 1, 0, 2, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1},
-                {1, 4, 1, 2, 0, 2, 0, 2, 0, 0, 1, 1, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 2, 0, 1, 2, 1, 0, 0, 0, 1, 0, 1},
-                {1, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 1},
-                {1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}};
+                         {0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                         {0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0, 1},
+                         {0, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 0, 2, 0, 0, 1},
+                         {0, 0, 1, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 0, 0, 1},
+                         {1, 1, 1, 0, 2, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1},
+                         {1, 4, 1, 2, 0, 2, 0, 2, 0, 0, 1, 1, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 2, 0, 1, 2, 1, 0, 0, 0, 1, 0, 1},
+                         {1, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 1},
+                         {1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                         {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0, 0, 0, 0},
+                         {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}};
 
 
     if((arq = fopen("./Mapas/Fase8/level","w"))!=NULL) {
@@ -297,16 +358,16 @@ bool verificaArquivos(){
     printf("Verificando arquivos do jogo:\n");
     struct stat st = {0};
     if(
-        (stat("./Mapas", &st) == -1)||
-        (stat("./Mapas/Fase1/level", &st) == -1)||
-        (stat("./Mapas/Fase2/level", &st) == -1)||
-        (stat("./Mapas/Fase3/level", &st) == -1)||
-        (stat("./Mapas/Fase4/level", &st) == -1)||
-        (stat("./Mapas/Fase5/level", &st) == -1)||
-        (stat("./Mapas/Fase6/level", &st) == -1)||
-        (stat("./Mapas/Fase7/level", &st) == -1)||
-        (stat("./Mapas/Fase8/level", &st) == -1)||
-        (stat("./Mapas/Fase9/level", &st) == -1))
+            (stat("./Mapas", &st) == -1)||
+            (stat("./Mapas/Fase1/level", &st) == -1)||
+            (stat("./Mapas/Fase2/level", &st) == -1)||
+            (stat("./Mapas/Fase3/level", &st) == -1)||
+            (stat("./Mapas/Fase4/level", &st) == -1)||
+            (stat("./Mapas/Fase5/level", &st) == -1)||
+            (stat("./Mapas/Fase6/level", &st) == -1)||
+            (stat("./Mapas/Fase7/level", &st) == -1)||
+            (stat("./Mapas/Fase8/level", &st) == -1)||
+            (stat("./Mapas/Fase9/level", &st) == -1))
     {
         mkdir("./Mapas", 0777);
         mkdir("./Mapas/Fase1", 0777);
@@ -323,27 +384,75 @@ bool verificaArquivos(){
     else return true;
 }
 
+//bool inicializaFase(char * caminhoFase, int *** original, int *** movel, int * lin, int * col) {
+//
+//    printf("Inicializando fase no endereço: %s\n", caminhoFase);
+//    FILE *arq;
+//    if((arq = fopen(strcat(caminhoFase,"level"),"r")) == NULL){
+//        printf("Não foi possível inicializar a fase no caminho especificado.\n");
+//        return false;
+//    }
+//    printf("Lendo número de linhas\n");
+//    fread(lin,sizeof(int),1,arq);
+//    printf("Lendo número de colunas\n");
+//    fread(col,sizeof(int),1,arq);
+//    printf("Linhas: %d\nColunas: %d\n",*lin,*col);
+//    printf("Alocando matrizes: \n");
+//    if(Mallocar2d(original,*lin,*col)== false)
+//    {
+//        printf("Não foi possível alocar espaço na memória para ORIGINAL\n");
+//        return false;
+//    }
+//    printf("Matriz ORIGINAL Alocada. \n");
+//    if(Mallocar2d(movel,*lin,*col)== false)
+//    {
+//        printf("Não foi possível alocar espaço na memória para ORIGINAL\n");
+//        return false;
+//    }
+//    printf("Matriz MOVEL Alocada.\n");
+//    printf("Lendo valores e salvando na matriz ORIGINAL \n");
+//    rewind(arq);
+//    fseek(arq,sizeof(int)*2,SEEK_CUR);
+//    fread(original, sizeof(int),*lin * *col, arq);
+//    code((int *)original, *lin, *col);
+//    printf("Valores lidos\n");
+//    rewind(arq);
+//    fseek(arq,sizeof(int)*2,SEEK_CUR);
+//    printf("Lendo valores e salvando na matriz movel \n");
+//    fread(movel, sizeof(int), *lin * *col, arq);
+//    code((int *)movel, *lin, *col);
+//    printf("Valores lidos\n");
+//    fclose(arq);
+//    printf("Fechando arquivo \n");
+//    code((int *)original, *lin, *col);
+//    code((int *)movel, *lin, *col);
+//    printf("Matrizes inicializadas!\n");
+//    return true;
+//}
+
 int exibirMenu() {
 
     char fase;
-    printf("\n \n");
-    printf("███████╗ ██████╗ ██╗  ██╗ ██████╗ ██████╗  █████╗ ███╗   ██╗\n");
-    printf("██╔════╝██╔═══██╗██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗████╗  ██║\n");
-    printf("███████╗██║   ██║█████╔╝ ██║   ██║██████╔╝███████║██╔██╗ ██║\n");
-    printf("╚════██║██║   ██║██╔═██╗ ██║   ██║██╔══██╗██╔══██║██║╚██╗██║\n");
-    printf("███████║╚██████╔╝██║  ██╗╚██████╔╝██████╔╝██║  ██║██║ ╚████║\n");
-    printf("╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝\n \n");
-    printf("Feito por Marcos Paulo Paolino e Marco Cabral Campelo");
-    printf("\n Selecione a fase: \n");
-    printf("1 -> Fase 1 \n2 -> Fase 2 \n3 -> Fase 3 \n0 -> Externo \nq -> Sair do Jogo\n\n");
+    printf("\n \n"
+           "███████╗ ██████╗ ██╗  ██╗ ██████╗ ██████╗  █████╗ ███╗   ██╗\n"
+           "██╔════╝██╔═══██╗██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗████╗  ██║\n"
+           "███████╗██║   ██║█████╔╝ ██║   ██║██████╔╝███████║██╔██╗ ██║\n"
+           "╚════██║██║   ██║██╔═██╗ ██║   ██║██╔══██╗██╔══██║██║╚██╗██║\n"
+           "███████║╚██████╔╝██║  ██╗╚██████╔╝██████╔╝██║  ██║██║ ╚████║\n"
+           "╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝\n \n"
+           "Feito por Marcos Paulo Paolino e Marco Cabral Campelo"
+           "\n Selecione a fase: \n"
+           "1 -> Fase 1     4 -> Fase 4     7 -> Fase 7     0 -> Fase Customizada\n"
+           "2 -> Fase 2     5 -> Fase 5     8 -> Fase 8     H -> Ajuda\n"
+           "3 -> Fase 3     6 -> Fase 6     9 -> Fase 9     Q -> Sair\n\n");
 
     scanf("%c", &fase);
 
-    if(isdigit(fase))
-        return (fase-'0');
+    if(isdigit(fase)) return (fase-'0');
 
-    else if (fase == 'q')
-        return -1;
+    else if (toupper(fase) == 'Q') return -1;
+
+    else if(toupper(fase) == 'H') return 0;
 
     else {
         system("clear");
@@ -618,42 +727,75 @@ void mostrarMapa(int *movel, int *original, int lin, int col) {
 int jogo(int fase) {
     system("clear");
     moves = 0;
+    char caminhoFase[31];
+    char caminhoArquivo[31];
+    int **original;
+    int **movel;
+    int lin;
+    int col;
+
     if(fase == 0)
     {
-        /*menu customizado*/
-    }
-    else if(fase == 1){
-        int lin = 11; int col = 19;
-        int original[11][19] = {{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                                {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
-                                {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
-                                {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
-                                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        int movel[11][19] = {{0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                             {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                             {0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                             {0, 0, 1, 1, 1, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                             {0, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                             {1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                             {1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 3, 3, 1},
-                             {1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1},
-                             {1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 4, 1, 1, 0, 0, 3, 3, 1},
-                             {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                             {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}};
+    }
+    else {
+
+        sprintf(caminhoFase, "./Mapas/Fase%d/", fase);
+        sprintf(caminhoArquivo, "./Mapas/Fase%d/level", fase);
+
+
+        FILE *arq;
+
+        if((arq = fopen(caminhoArquivo,"r")) == NULL)
+        {
+            printf("Não foi possível inicializar a fase.");
+            return 0;
+        }
+        fread(&lin,sizeof(int),1,arq);
+        fclose(arq);
+        printf("%d",lin);
+
+        if((arq = fopen(caminhoArquivo,"r")) == NULL)
+        {
+            printf("Não foi possível inicializar a fase.");
+            return 0;
+        }
+        fseek(arq,sizeof(int),SEEK_CUR);
+        fread(&col,sizeof(int),1,arq);
+        fclose(arq);
+        printf("%d",col);
+
+        Mallocar2d(&original,lin,col);
+        Mallocar2d(&movel,lin,col);
+
+        if((arq = fopen(caminhoArquivo,"r")) == NULL)
+        {
+            printf("Não foi possível inicializar a fase.");
+            return 0;
+        }
+        fseek(arq, sizeof(int)*2,SEEK_CUR);
+        fread(original,sizeof(int),lin*col,arq);
+        fclose(arq);
+        code((int *)original,lin,col);
+
+        if((arq = fopen(caminhoArquivo,"r")) == NULL)
+        {
+            printf("Não foi possível inicializar a fase.");
+            return 0;
+        }
+        fseek(arq, sizeof(int)*2,SEEK_CUR);
+        fread(movel,sizeof(int),lin*col,arq);
+        fclose(arq);
+        code((int *)movel,lin,col);
+
 
         bool rodando = true;
-
         /*Aqui é onde o  jogo roda de fato*/
         while (rodando) {
             if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
-                return vitoria("./Mapas/Fase1/Recordes");
+                free(original);
+                free(movel);
+                return vitoria(caminhoFase);
             }
             mostrarMapa((int *) movel, (int *) original, lin, col);
             exibirPosicao((int *) movel, lin, col);
@@ -661,77 +803,8 @@ int jogo(int fase) {
                 rodando = false;
             }
         }
-    }
-    else if(fase == 2) {
-        int lin = 10;
-        int col = 10;
-        int original[10][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                {1, 0, 0, 2, 0, 0, 0, 3, 0, 1},
-                                {1, 0, 2, 0, 2, 0, 0, 0, 0, 1},
-                                {1, 0, 0, 0, 0, 0, 0, 3, 0, 1},
-                                {1, 0, 4, 0, 0, 0, 1, 1, 1, 1},
-                                {1, 0, 0, 0, 1, 0, 1, 1, 0, 1},
-                                {1, 0, 0, 0, 1, 3, 0, 1, 0, 0},
-                                {1, 0, 0, 0, 1, 0, 0, 1, 0, 0},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}};
-
-        int movel[10][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                             {1, 0, 0, 2, 0, 0, 0, 3, 0, 1},
-                             {1, 0, 2, 0, 2, 0, 0, 0, 0, 1},
-                             {1, 0, 0, 0, 0, 0, 0, 3, 0, 1},
-                             {1, 0, 4, 0, 0, 0, 1, 1, 1, 1},
-                             {1, 0, 0, 0, 1, 0, 1, 1, 0, 1},
-                             {1, 0, 0, 0, 1, 3, 0, 1, 0, 0},
-                             {1, 0, 0, 0, 1, 0, 0, 1, 0, 0},
-                             {1, 1, 1, 1, 1, 1, 1, 1, 0, 0}};
-
-        bool rodando = true;
-        /*Aqui é onde o  jogo roda de fato*/
-        while (rodando) {
-            if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
-                return vitoria("./Mapas/Fase2/Recordes");
-            }
-            mostrarMapa((int *) movel, (int *) original, lin, col);
-            exibirPosicao((int *) movel, lin, col);
-            if (movimentarPersonagem((int *) movel, lin, col) == -1) {
-                rodando = false;
-            }
-        }
-    }
-    else if(fase ==3){
-        int lin = 6;
-        int col = 6;
-        int original[6][6] = {{1, 1, 1, 1, 1, 1},
-                              {1, 0, 0, 0, 0, 1},
-                              {1, 0, 2, 0, 0, 1},
-                              {1, 0, 3, 4, 0, 1},
-                              {1, 0, 0, 0, 0, 1},
-                              {1, 1, 1, 1, 1, 1}};
-
-        int movel[6][6] = {{1, 1, 1, 1, 1, 1},
-                           {1, 0, 0, 0, 0, 1},
-                           {1, 0, 2, 0, 0, 1},
-                           {1, 0, 3, 4, 0, 1},
-                           {1, 0, 0, 0, 0, 1},
-                           {1, 1, 1, 1, 1, 1}};
-
-        bool rodando = true;
-        /*Aqui é onde o  jogo roda de fato*/
-        while (rodando) {
-            if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
-                return vitoria("./Mapas/Fase3/Recordes");
-            }
-            mostrarMapa((int *) movel, (int *) original, lin, col);
-            exibirPosicao((int *) movel, lin, col);
-            if (movimentarPersonagem((int *) movel, lin, col) == -1) {
-                rodando = false;
-            }
-        }
-    }
-    else{
-        printf("fase não encontrada");
+        free(original);
+        free(movel);
     }
     return 0;
 }

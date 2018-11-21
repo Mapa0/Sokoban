@@ -13,4 +13,8 @@ stdlib.h
 -
 ctype.h
 -
+sys/stat.h
+-
+memory.h
+-
 
