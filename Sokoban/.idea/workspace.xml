@@ -77,67 +77,81 @@
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.31" value="2" />
           <entry key="project.open.time.33" value="1" />
-          <entry key="project.open.time.35" value="1" />
+          <entry key="project.open.time.34" value="1" />
+          <entry key="project.open.time.35" value="2" />
+          <entry key="project.open.time.36" value="1" />
           <entry key="project.open.time.37" value="1" />
-          <entry key="project.open.time.38" value="1" />
+          <entry key="project.open.time.38" value="2" />
           <entry key="project.open.time.39" value="2" />
           <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="20" />
+          <entry key="project.opened" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="Recordes" value="1" />
           <entry key="c" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="ObjectiveC" value="1" />
+          <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="c" value="20281" />
+          <entry key="c" value="23368" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="20281" />
+          <entry key="ObjectiveC" value="23368" />
         </counts>
       </usages-collector>
     </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Sokoban" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="348" column="17" selection-start-line="348" selection-start-column="17" selection-end-line="348" selection-end-column="17" />
+            <state relative-caret-position="180">
+              <caret line="498" column="55" selection-start-line="498" selection-start-column="55" selection-end-line="498" selection-end-column="55" />
               <folding>
                 <element signature="e#0#204#0" />
-                <element signature="e#295#315#0" />
-                <element signature="e#335#776#0" />
-                <element signature="e#335#12903#0" />
-                <element signature="e#12905#14092#0" />
-                <element signature="e#12934#13036#0" />
-                <element signature="e#14094#15179#0" />
-                <element signature="e#15181#16219#0" />
-                <element signature="e#16221#16857#0" />
-                <element signature="e#16859#17162#0" />
-                <element signature="e#17164#20745#0" />
-                <element signature="e#20747#23028#0" />
-                <element signature="e#23030#24002#0" />
-                <element signature="e#24488#31192#0" />
-                <element signature="e#27057#29353#0" />
-                <element signature="e#29712#30033#0" />
+                <element signature="e#375#425#1" />
+                <element signature="e#375#593#0" />
+                <element signature="e#649#768#0" />
+                <element signature="e#649#1057#0" />
+                <element signature="e#375#814#0" />
+                <element signature="e#816#13384#0" />
+                <element signature="e#13386#14573#0" />
+                <element signature="e#13415#13517#0" />
+                <element signature="e#14855#16035#0" />
+                <element signature="e#16037#16988#0" />
+                <element signature="e#16990#17626#0" />
+                <element signature="e#17628#17931#0" />
+                <element signature="e#17933#21514#0" />
+                <element signature="e#21516#23797#0" />
+                <element signature="e#23799#24771#0" />
+                <element signature="e#24773#26796#0" />
+                <element signature="e#29010#29699#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>NULL</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -156,8 +170,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="672" />
-    <option name="height" value="738" />
+    <option name="y" value="-1" />
+    <option name="width" value="662" />
+    <option name="height" value="736" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -176,7 +191,7 @@
             <path>
               <item name="Sokoban" type="b2602c69:ProjectViewProjectNode" />
               <item name="Sokoban" type="462c0819:PsiDirectoryNode" />
-              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
+              <item name="Mapas" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -248,18 +263,22 @@
       <workItem from="1542694395722" duration="10000" />
       <workItem from="1542694437435" duration="4740000" />
       <workItem from="1542757034800" duration="25080000" />
+      <workItem from="1542820640286" duration="5343000" />
+      <workItem from="1542845583358" duration="1501000" />
+      <workItem from="1542899490034" duration="334000" />
+      <workItem from="1542909924636" duration="9862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95651000" />
+    <option name="totallyTimeSpent" value="112691000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.17348485" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49837664" visible="true" weight="0.18484849" />
       <window_info id="Structure" order="1" sideWeight="0.5016234" side_tool="true" weight="0.1590909" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.34253246" />
@@ -273,6 +292,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32954547" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" />
+      <window_info anchor="bottom" id="Favorites" order="13" weight="0.32954547" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -287,27 +307,30 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Mapas/o/Recordes" />
     <entry file="file://$PROJECT_DIR$/main.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="348" column="17" selection-start-line="348" selection-start-column="17" selection-end-line="348" selection-end-column="17" />
+        <state relative-caret-position="180">
+          <caret line="498" column="55" selection-start-line="498" selection-start-column="55" selection-end-line="498" selection-end-column="55" />
           <folding>
             <element signature="e#0#204#0" />
-            <element signature="e#295#315#0" />
-            <element signature="e#335#776#0" />
-            <element signature="e#335#12903#0" />
-            <element signature="e#12905#14092#0" />
-            <element signature="e#12934#13036#0" />
-            <element signature="e#14094#15179#0" />
-            <element signature="e#15181#16219#0" />
-            <element signature="e#16221#16857#0" />
-            <element signature="e#16859#17162#0" />
-            <element signature="e#17164#20745#0" />
-            <element signature="e#20747#23028#0" />
-            <element signature="e#23030#24002#0" />
-            <element signature="e#24488#31192#0" />
-            <element signature="e#27057#29353#0" />
-            <element signature="e#29712#30033#0" />
+            <element signature="e#375#425#1" />
+            <element signature="e#375#593#0" />
+            <element signature="e#649#768#0" />
+            <element signature="e#649#1057#0" />
+            <element signature="e#375#814#0" />
+            <element signature="e#816#13384#0" />
+            <element signature="e#13386#14573#0" />
+            <element signature="e#13415#13517#0" />
+            <element signature="e#14855#16035#0" />
+            <element signature="e#16037#16988#0" />
+            <element signature="e#16990#17626#0" />
+            <element signature="e#17628#17931#0" />
+            <element signature="e#17933#21514#0" />
+            <element signature="e#21516#23797#0" />
+            <element signature="e#23799#24771#0" />
+            <element signature="e#24773#26796#0" />
+            <element signature="e#29010#29699#0" />
           </folding>
         </state>
       </provider>
