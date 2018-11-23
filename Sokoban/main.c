@@ -602,6 +602,34 @@ void verRanking(){
      */
 }
 
+void verAjuda(){
+    /*
+     *  A função verAjuda, exibe informações importantes sobre o jogo.
+     */
+    system("clear");
+    printf("██╗███╗   ██╗███████╗ ██████╗ \n"
+           "██║████╗  ██║██╔════╝██╔═══██╗\n"
+           "██║██╔██╗ ██║█████╗  ██║   ██║\n"
+           "██║██║╚██╗██║██╔══╝  ██║   ██║\n"
+           "██║██║ ╚████║██║     ╚██████╔╝\n"
+           "╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ \n\n "
+           "O que é Sokoban?\n"
+           " Sokoban é um jogo de origem japonesa, criado inicialmente por Hiroyuki Imabayashi.\n"
+           " Seu nome  significa, literalmente, Zelador do Armazém.\n"
+           "Como funciona o jogo?\n"
+           " O jogo consiste em empurrar caixas até suas devidas posições, mostradas no mapa do jogo (o armazém).\n"
+           " Só é importante tomar cuidado para não fazer movimentos em falso.\n"
+           "Uma curiosidade?\n"
+           " Sokoban é bastante utilizado no ramo de I.A. (Inteligência artifical)\n"
+           " Por seus quebra-cabeças serem um verdadeiro desafio para as inteligências.\n\n"
+           "Como jogar:                                Legenda:\n"
+           " W -> Move o personagem para cima          @ -> Personagem\n"
+           " A -> Move o personagem para a esquerda    # -> Caixa\n"
+           " S -> Move o personagem para baixo         x -> Destino da caixa\n"
+           " D -> Move o personagem para a direita     \n");
+    pause();
+}
+
 int exibirMenu() {
     /*
      * Essa função exibe o  menu principal do jogo.
@@ -936,6 +964,8 @@ int movimentarPersonagem(int *movel, int lin, int col) {
             /*
              * Retorna -1, a fase é abandonada.
              */
+        case 'r':
+            return -2;
         default:
             return 0;
             /*
@@ -1080,6 +1110,7 @@ int jogo(int fase) {
     /*
      * Convoca a função Mallocar2d 2 vezes, para alocar a memória das matrizes original e móvel baseada nos valores de lin e col.
      */
+
     if((arq = fopen(caminhoArquivo,"r")) == NULL)
     {
         printf("Não foi possível inicializar a fase.");
@@ -1114,6 +1145,7 @@ int jogo(int fase) {
      * Aqui é o loop fundamental do jogo.
      */
     while (rodando) {
+        int escolha;
         if (verificaVitoria((int *) movel, (int *) original, lin, col)) {
             free(original);
             free(movel);
@@ -1133,12 +1165,21 @@ int jogo(int fase) {
         /*
          * Convoca a função exibirPosicao, para imprimir na tela os movimentos feitos e as coordenadas x e y do personagem.
          */
-        if (movimentarPersonagem((int *) movel, lin, col) == -1) {
+        if ((escolha = movimentarPersonagem((int *) movel, lin, col)) == -1) {
             rodando = false;
             /*
              * Chama a função movimentarPersonagem após ter chamado todas as outras funções.
              * Caso seu retorno seja -1, o  jogo para de rodar.
              * É importante chamar a função neste ponto para garantir que o que está sendo impresso na tela é fiel ao posicionamento real do personagem.
+             */
+        }
+        else if(escolha == -2)
+        {
+            free(original);
+            free(movel);
+            return jogo(fase);
+            /*
+             * Caso movimentarPersonagem retorne -2, as matrizes são liberadas e o jogo chama recursivamente a função jogo.
              */
         }
     }
@@ -1195,6 +1236,7 @@ int main(int argc, char * argv[]) {
             /*
              * Exibe a página de ajudas.
              */
+            verAjuda();
         }
         else if(level == -3)
         {
