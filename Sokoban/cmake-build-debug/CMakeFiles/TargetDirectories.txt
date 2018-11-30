@@ -1,3 +1,0 @@
-/home/mapa/Coding/Projetos/C/sokoban/Sokoban/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/mapa/Coding/Projetos/C/sokoban/Sokoban/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/mapa/Coding/Projetos/C/sokoban/Sokoban/cmake-build-debug/CMakeFiles/Sokoban.dir

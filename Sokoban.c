@@ -21,7 +21,7 @@
 typedef enum { false, true } bool;
 /*
  * Esse typedef bool, foi feito para que exista um tipo bool.
- * Preferi trabalhar com false e true no lugar de 0 e 1, por questões de organização.
+ * Preferimos trabalhar com false e true no lugar de 0 e 1, por questões de organização.
  */
 
 
@@ -36,7 +36,6 @@ char nomeFase[13];
  * Variável de escopo global.
  * Armazena o nome da fase customizada, opcionalmente passada como parâmetro ao iniciar o programa.
  */
-
 
 
 struct Jogador{
@@ -626,7 +625,9 @@ void verAjuda(){
            " W -> Move o personagem para cima          @ -> Personagem\n"
            " A -> Move o personagem para a esquerda    # -> Caixa\n"
            " S -> Move o personagem para baixo         x -> Destino da caixa\n"
-           " D -> Move o personagem para a direita     \n");
+           " D -> Move o personagem para a direita     \n"
+           " Q -> Sai da fase\n"
+           " R -> Reinicia a fase\n");
     pause();
 }
 
@@ -637,17 +638,17 @@ int exibirMenu() {
      */
     char fase;
     printf("\n \n"
-           "███████╗ ██████╗ ██╗  ██╗ ██████╗ ██████╗  █████╗ ███╗   ██╗\n"
-           "██╔════╝██╔═══██╗██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗████╗  ██║\n"
-           "███████╗██║   ██║█████╔╝ ██║   ██║██████╔╝███████║██╔██╗ ██║\n"
-           "╚════██║██║   ██║██╔═██╗ ██║   ██║██╔══██╗██╔══██║██║╚██╗██║\n"
-           "███████║╚██████╔╝██║  ██╗╚██████╔╝██████╔╝██║  ██║██║ ╚████║\n"
-           "╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝\n \n"
+           "\033[031m███████\033[036m╗ \033[031m██████\033[036m╗ \033[031m██\033[036m╗  \033[031m██\033[036m╗ \033[031m██████\033[036m╗ \033[031m██████\033[036m╗  \033[031m█████\033[036m╗ \033[031m███\033[036m╗   \033[031m██\033[036m╗\033[039m\n"
+           "\033[031m██\033[036m╔════╝\033[031m██\033[036m╔═══\033[031m██\033[036m╗\033[031m██\033[036m║ \033[031m██\033[036m╔╝\033[031m██\033[036m╔═══\033[031m██\033[036m╗\033[031m██\033[036m╔══\033[031m██\033[036m╗\033[031m██\033[036m╔══\033[031m██\033[036m╗\033[031m████\033[036m╗  \033[031m██\033[036m║\033[039m\n"
+           "\033[031m███████\033[036m╗\033[031m██\033[036m║   \033[031m██\033[036m║\033[031m█████\033[036m╔╝ \033[031m██\033[036m║   \033[031m██\033[036m║\033[031m██████\033[036m╔╝\033[031m███████\033[036m║\033[031m██\033[036m╔\033[031m██\033[036m╗ \033[031m██\033[036m║\033[039m\n"
+           "\033[036m╚════\033[031m██\033[036m║\033[031m██\033[036m║   \033[031m██\033[036m║\033[031m██\033[036m╔═\033[031m██\033[036m╗ \033[031m██\033[036m║   \033[031m██\033[036m║\033[031m██\033[036m╔══\033[031m██\033[036m╗\033[031m██\033[036m╔══\033[031m██\033[036m║\033[031m██\033[036m║╚\033[031m██\033[036m╗\033[031m██\033[036m║\033[039m\n"
+           "\033[031m███████\033[036m║╚\033[031m██████\033[036m╔╝\033[031m██\033[036m║  \033[031m██\033[036m╗╚\033[031m██████\033[036m╔╝\033[031m██████\033[036m╔╝\033[031m██\033[036m║  \033[031m██\033[036m║\033[031m██\033[036m║ ╚\033[031m████\033[036m║\033[039m\n"
+           "\033[036m╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝\033[039m\n \n"
            "Feito por Marcos Paulo Paolino e Marco Cabral Campelo"
            "\n Selecione a fase:                            \n"
            "1 -> Fase 1     4 -> Fase 4     7 -> Fase 7     0 -> Fase Customizada\n"
-           "2 -> Fase 2     5 -> Fase 5     8 -> Fase 8     H -> Ajuda\n"
-           "3 -> Fase 3     6 -> Fase 6     9 -> Fase 9     R -> Ver Ranking\n\nQ -> Sair\n\n");
+           "2 -> Fase 2     5 -> Fase 5     8 -> Fase 8     C -> Criar Fase\n"
+           "3 -> Fase 3     6 -> Fase 6     9 -> Fase 9     R -> Ver Ranking\n\nQ -> Sair     H -> Ajuda\n\n");
 
     scanf("%c", &fase);
     if(isdigit(fase)) return (fase-'0');
@@ -669,6 +670,11 @@ int exibirMenu() {
     /*
      * Se o usuário digitar r ou R, retorna -3.
      * Esse valor faz o jogo exibir o menu de Ranking.
+     */
+    else if(toupper(fase) == 'C') return -4;
+        /*
+     * Se o usuário digitar c ou C, retorna -4.
+     * Esse valor faz o jogo exibir o menu de Criação de fases.
      */
     else {
         system("clear");
@@ -760,14 +766,55 @@ void exibirPosicao(int *movel, int lin, int col){
     /*
      * Essa função imprime as coordenadas x e y do jogador na matriz e também imprime o número de movimentos realizados até então.
      */
+    int contaPlayer = 0;
     for(int i = 0; i < lin; i++)
         for (int j = 0; j < col; j++) {
             if(movel[i * col + j] == 4)
             {
-                printf("\nx: %d y: %d \n",j,lin - 1- i);
-                printf("Movimentos = %d \n", moves);
+                if(contaPlayer == 0) {
+                    printf("\nx: %d y: %d \n",j,lin - 1- i);
+                    printf("Movimentos = %d \n", moves);
+                    contaPlayer++;
+                }
             }
         }
+}
+
+void exibeConstrucao(int*matriz, int lin, int col) {
+    /*
+     * Esta função funciona juntamente com a criaFase();
+     * Funciona para exibir a construção do usuário.
+     * Lendo a matriz e retornando o devido caractér.
+     */
+    for(int i = 0; i < lin; i++) {
+        for (int j = 0; j < col; j++) {
+            switch(matriz[i*col+j])
+            {
+                case 0:
+                    printf(" ");
+                    break;
+                case 1:
+                    printf("█");
+                    break;
+                case 2:
+                    printf("#");
+                    break;
+                case 3:
+                    printf("x");
+                    break;
+                case 4:
+                    printf("@");
+                    break;
+                case 5:
+                    printf("o");
+                    break;
+                default:
+                    printf("?");
+                    break;
+            }
+        }
+        printf("\n");
+    }
 }
 
 bool verificaMovimento(char direcao, int *movel, int lin, int col) {
@@ -1000,25 +1047,26 @@ void mostrarMapa(int *movel, int *original, int lin, int col) {
             switch (movel[i*col+j]) {
 
                 case 0:
-                    printf(" ");
+                    printf("\033[039m ");
                     break;
                 case 1:
-                    printf("█");
+                    printf("\033[036m█");
                     break;
                 case 2:
-                    printf("#");
+                    if(original[i*col+j] == 3) printf("\033[92m#");
+                    else    printf("\033[93m#");
                     break;
                 case 3:
-                    printf("x");
+                    printf("\033[091mx");
                     break;
                 case 4:
-                    printf("@");
+                    printf("\033[096m@");
                     break;
                 default:
                     printf("?");
             }
         }
-        printf("\n");
+        printf("\033[039m\n");
     }
     /*
      * Esses fors são para a "Construção da fase". Dependendo do inteiro lido  na matriz, um caracter diferente será impresso na tela.
@@ -1031,6 +1079,122 @@ void mostrarMapa(int *movel, int *original, int lin, int col) {
      * Valor n: "?" -> Não identificado/Corrompido.
      * Em geral, se ver qualquer "?" em algum mapa, provavelmente significa que algo está errado com o seu binário.
      */
+}
+
+void criaFase(){
+    /*
+     * Esta função  é a função de criar sua própria fase.
+     * Em geral, ela aloca uma matriz, a preenche, exibe passo por passo para o usuário
+     * E salva em um arquivo.
+     */
+    system("clear");
+    int lin;
+    int col;
+    bool avaliaEntrada = false;
+    char nomeLevel[13];
+    char caminhoFase[31];
+    printf(" ██████╗ ██████╗ ███╗   ██╗███████╗████████╗██████╗ ██╗   ██╗ █████╗ \n"
+           "██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗\n"
+           "██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ██████╔╝██║   ██║███████║\n"
+           "██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██╗██║   ██║██╔══██║\n"
+           "╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║╚██████╔╝██║  ██║\n"
+           " ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝\n\n"
+           "Digite o número de linhas: \n");
+    scanf("%d",&lin);
+    printf("Digite o número de colunas: \n");
+    scanf("%d", &col);
+
+    int (*level)[lin] = malloc(sizeof(int[lin][col]));
+
+    for (int i = 0; i < lin; i++)
+        for (int j = 0; j < col; j++)
+            level[i][j] = 0;
+
+    level[0][0] = 5;
+    for (int i = 0; i < lin; i++)
+        for (int j = 0; j < col; j++) {
+            avaliaEntrada = false;
+            if(level[i][j] == 5)
+            {
+                system("clear");
+                printf(" ██████╗ ██████╗ ███╗   ██╗███████╗████████╗██████╗ ██╗   ██╗ █████╗ \n"
+                       "██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗\n"
+                       "██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ██████╔╝██║   ██║███████║\n"
+                       "██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██╗██║   ██║██╔══██║\n"
+                       "╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║╚██████╔╝██║  ██║\n"
+                       " ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝\n\n"
+                       "0 - > Vazio\n1 - > Parede\n2 - > Caixa\n3 - > Destino caixa\n4 - > Personagem\n5 - > Desfazer\n\n");
+                exibeConstrucao((int *) level, lin,col);
+                while(!avaliaEntrada) {
+                    scanf("%d", &level[i][j]);
+                    if(level[i][j] == 0 ||level[i][j] == 1||level[i][j] == 2||level[i][j] == 3||level[i][j] == 4)
+                    {
+                        if(j == col - 1 && i != lin - 1)
+                        {
+                            level[i+1][0] = 5;
+                        }
+                        else
+                        {
+                            level[i][j+1] = 5;
+                        }
+                        avaliaEntrada = true;
+                    }
+                    else if(level[i][j] == 5 && !(i == 0 && j == 0))
+                    {
+                        if(j == 0 && i > 0)
+                        {
+                            level[i][j] = 0;
+                            level[i-1][col-1] = 5;
+                            i = 0;
+                            j = 0;
+                            avaliaEntrada = true;
+                        }
+                        else if(j > 0)
+                        {
+                            level[i][j] = 0;
+                            level[i][j-1] = 5;
+                            i = 0;
+                            j = 0;
+                            avaliaEntrada = true;
+                        }
+                    }
+                }
+            }
+        }
+    FILE *arq;
+    system("clear");
+    printf(" ██████╗ ██████╗ ███╗   ██╗███████╗████████╗██████╗ ██╗   ██╗ █████╗ \n"
+           "██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗\n"
+           "██║     ██║   ██║██╔██╗ ██║███████╗   ██║   ██████╔╝██║   ██║███████║\n"
+           "██║     ██║   ██║██║╚██╗██║╚════██║   ██║   ██╔══██╗██║   ██║██╔══██║\n"
+           "╚██████╗╚██████╔╝██║ ╚████║███████║   ██║   ██║  ██║╚██████╔╝██║  ██║\n"
+           " ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝\n\n"
+           "Sua fase foi criada.\n"
+           "Digite o nome da fase (até 12 caractéres, sem espaços):\n");
+
+    scanf("%s",nomeLevel);
+    sprintf(caminhoFase,"./Mapas/%s/",nomeLevel);
+    mkdir(caminhoFase,0777);
+    sprintf(caminhoFase, "./Mapas/%s/level",nomeLevel);
+    arq = fopen(caminhoFase,"w");
+    fwrite(&lin, sizeof(int), 1,arq);
+    fwrite(&col, sizeof(int), 1,arq);
+    fwrite(level,sizeof(int),lin * col, arq);
+    fclose(arq);
+    sprintf(caminhoFase, "./Mapas/%s/Recordes",nomeLevel);
+    arq = fopen(caminhoFase,"w");
+    fclose(arq);
+    sprintf(caminhoFase, "./Mapas/%s/level",nomeLevel);
+    arq = fopen(caminhoFase,"r");
+    fread(&lin,sizeof(int),1,arq);
+    fread(&col,sizeof(int),1,arq);
+    fread(level,sizeof(int),lin*col,arq);
+    fclose(arq);
+    printf("Esta é a fase %s:\n",nomeLevel);
+    exibeConstrucao((int *)level,lin,col);
+    strcpy(nomeFase,nomeLevel);
+    free(level);
+    pause();
 }
 
 int jogo(int fase) {
@@ -1216,7 +1380,7 @@ int main(int argc, char * argv[]) {
          * level representa a escolha feita no menu principal.
          * Qual fase vai ser jogada ou se deseja ver rankings, por exemplo.
          */
-        if (level != -1 &&  level != -2 && level != -3) {
+        if (level != -1 &&  level != -2 && level != -3 && level != -4) {
             jogo(level);
             /*
              * Caso o jogador tenha escolhido uma fase numa menu, a informação sobre qual fase foi escolhida é levada ao jogo pela função jogo(level).
@@ -1244,6 +1408,13 @@ int main(int argc, char * argv[]) {
              * Exibe o menu de ranking.
              */
             verRanking();
+        }
+        else if(level == -4)
+        {
+            /*
+             * Chama o  menu de criaçã de fases.
+             */
+            criaFase();
         }
     }
 }
