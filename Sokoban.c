@@ -1117,7 +1117,8 @@ void criaFase(){
     printf("Digite o número de colunas: \n");
     scanf("%d", &col);
 
-    int (*level)[lin] = malloc(sizeof(int[lin][col]));
+    int (*level)[col];
+    level=(int (*)[col])malloc(sizeof(*level)*lin);
 
     for (int i = 0; i < lin; i++)
         for (int j = 0; j < col; j++)
@@ -1157,7 +1158,6 @@ void criaFase(){
                         if((i * col + j) > 0) {
                             if(i*col+j == 1)
                             {
-                                printf("%d %d %d\n", i, j, i*col+j);
                                 level[i][j] = 0;
                                 level[0][0] = 5;
                                 j--;
